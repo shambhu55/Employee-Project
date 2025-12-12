@@ -118,8 +118,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new InvalidFileException("Image size must be less than 2MB.");
 
         String uploadDirectory = "uploads/employee-profiles/";
-        File directory = new File(uploadDirectory);
-
         String fileName = id+"_"+employee.getName()+".jpg";
         Path filePath = Paths.get(uploadDirectory + fileName);
 
@@ -130,7 +128,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         employeeRepository.updateImage(id, fileName);
-
         return "Image Uploaded Successfully";
     }
 

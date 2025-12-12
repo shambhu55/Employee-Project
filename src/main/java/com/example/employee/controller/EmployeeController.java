@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee findEmployeeById(@PathVariable Long id){
-        return employeeService.getEmployeeById(id);
+        return employeeService.getEmployeeById(id);     // image viewable
     }
 
     @DeleteMapping("/{id}")
