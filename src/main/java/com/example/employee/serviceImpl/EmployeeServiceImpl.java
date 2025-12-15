@@ -6,6 +6,7 @@ import com.example.employee.exception.InvalidFileException;
 import com.example.employee.exception.ResourceNotFoundException;
 import com.example.employee.repository.EmployeeRepository;
 import com.example.employee.service.EmployeeService;
+import com.example.employee.util.FileUploadUtil;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Max;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 //    public Employee saveEmployee(Employee employee) {
 //        if(employeeRepository.existsByName(employee.getName())){
 //            throw new DuplicateResourceException("Employee Exists with name "+employee.getName());
+//        }
+//        return employeeRepository.save(employee);
+//    }
+
+//    @Override
+//    public Employee saveEmployee(Employee employee) {
+//        if(employeeRepository.existsByNameAndDepartment(employee.getName(), employee.getDepartment())){
+//            throw new DuplicateResourceException("Employee Exists with Name "+employee.getName()+" and Department "+employee.getDepartment());
+//        }
+//        else if(employeeRepository.existsByEmail(employee.getEmail())){
+//            throw new DuplicateResourceException(("Employee with '"+employee.getEmail()+"' Already exist."));
+//        }
+//        else if (employeeRepository.existsByMobileNumber(employee.getMobileNumber())) {
+//            throw new DuplicateResourceException("Employee Mobile mobile should not be Duplicate");
 //        }
 //        return employeeRepository.save(employee);
 //    }
@@ -128,7 +143,48 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         employeeRepository.updateImage(id, fileName);
-        return "Image Uploaded Successfully";
+        employee.setProfileImageUrl(fileName);
+        return fileName;
+    }
+
+    @Override
+    public byte[] showImageById(long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not Found with id "+id));
+
+        if(employee.getProfileImageUrl() == null)
+            throw new ResourceNotFoundException("No image found for employee "+id);
+
+        String uploadDirectory = "uploads/employee-profiles/";
+        Path filPath = Paths.get(uploadDirectory + employee.getProfileImageUrl());
+
+        try {
+            return Files.readAllBytes(filPath);
+        } catch (IOException ex){
+            throw new RuntimeException("Error !");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void uploadEmployeeImage(Long id, MultipartFile file) {
+
+        if (!employeeRepository.existsById(id))
+            throw new ResourceNotFoundException("Employee not found");
+
+        if (file == null || file.isEmpty())
+            throw new InvalidFileException("File is empty");
+
+        if (!"image/jpeg".equals(file.getContentType()))
+            throw new InvalidFileException("Only JPG or JPEG images allowed");
+
+        String imagePath;
+        try {
+            imagePath = FileUploadUtil.saveFile(id, file);
+        } catch (IOException e) {
+            throw new RuntimeException("Image upload failed", e);
+        }
+        employeeRepository.updateImage(id, imagePath);
     }
 
 }
