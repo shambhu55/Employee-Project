@@ -13,7 +13,7 @@ public interface EmployeeService {
     String deleteEmployeeById(Long id);
     List<Employee> getAllEmployee();
     Employee updateEmployeeById(Long id, Employee employee);
-    List<Employee> getEmployeesByDepartment(String department);
+    List<Employee> getEmployeesByDepartment(String department); //(By creating Query)
     String saveProfileImage(long id, MultipartFile file);
     byte[] showImageById(long id);
     void uploadEmployeeImage(Long id, MultipartFile file);
