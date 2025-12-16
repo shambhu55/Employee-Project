@@ -17,4 +17,5 @@ public interface EmployeeService {
     String saveProfileImage(long id, MultipartFile file);
     byte[] showImageById(long id);
     void uploadEmployeeImage(Long id, MultipartFile file);
+
 }
