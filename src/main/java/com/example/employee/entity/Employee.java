@@ -1,5 +1,6 @@
 package com.example.employee.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -17,8 +18,11 @@ public class Employee {
     @Size(min = 2, max = 50, message = "Name must between 2-50 characters.")
     private String name;
 
-    @NotBlank(message = "Employee Department is required.")
-    private String department;
+    //@NotBlank(message = "Employee Department is required.")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    @JsonBackReference
+    private Department department;
 
     @Min(value = 1, message = "Salary not be zero.")
     private double salary;

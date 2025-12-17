@@ -30,8 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     // ----------- Save Employee -----------
     @Override
     public Employee saveEmployee(Employee employee) {
-        if(employeeRepository.existsByNameAndDepartment(employee.getName(), employee.getDepartment())){
-            throw new DuplicateResourceException("Employee Exists with Name "+employee.getName()+" and Department "+employee.getDepartment());
+        if(employeeRepository.existsByName(employee.getName())){
+            throw new DuplicateResourceException("Employee Exists with Name "+employee.getName());
         }
         else if(employeeRepository.existsByEmail(employee.getEmail())){
             throw new DuplicateResourceException(("Employee with '"+employee.getEmail()+"' Already exist."));
@@ -82,11 +82,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    // ---------- Fetch Employees By Department ----------
-    @Override
-    public List<Employee> getEmployeesByDepartment(String department) {
-        return employeeRepository.findByDepartment(department);
-    }
+//    // ---------- Fetch Employees By Department ----------
+//    @Override
+//    public List<Employee> getEmployeesByDepartment(String department) {
+//        return employeeRepository.findByDepartment(department);
+//    }
 
     // ---------- Save Profile Image ----------
         // save image in "id_name.jpeg" format

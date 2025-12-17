@@ -60,11 +60,11 @@ public class EmployeeController {
         return employeeService.updateEmployeeById(id, employee);
     }
 
-    // ---------- Fetch Employees By Department ----------
-    @GetMapping("/department/{department}")
-    public List<Employee> findEmployeeByDepartment(@PathVariable String department){
-        return employeeService.getEmployeesByDepartment(department);
-    }
+//    // ---------- Fetch Employees By Department ----------
+//    @GetMapping("/department/{department}")
+//    public List<Employee> findEmployeeByDepartment(@PathVariable String department){
+//        return employeeService.getEmployeesByDepartment(department);
+//    }
 
     // ---------- Save Profile Image ----------
         // save image in "id_name.jpeg" format
