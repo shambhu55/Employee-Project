@@ -1,17 +1,21 @@
 package com.example.employee.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name= "employees")
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Employee {
 
     @Id
@@ -40,12 +44,14 @@ public class Employee {
 
     //@NotBlank(message = "Employee Department is required.")
     @JsonIgnoreProperties({"employees"})
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)//
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @ManyToMany(mappedBy = "employees")
-    @JsonIgnoreProperties({"employees"})
-    private List<Task> tasks = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
+    @JsonIgnore //@JsonIgnoreProperties({"employees", "department"})
+    private Task task;
 
 }

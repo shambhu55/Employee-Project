@@ -12,10 +12,12 @@ public interface EmployeeService {
     List<Employee> getAllEmployee();
     Employee updateEmployeeById(Long id, Employee employee);
 
+
     //(By creating Query)
 //    List<Employee> getEmployeesByDepartment(String department);
 //    String saveProfileImage(long id, MultipartFile file);
 //    byte[] showImageById(long id);
 //    void uploadEmployeeImage(Long id, MultipartFile file);
+
 
 }
