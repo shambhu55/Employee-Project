@@ -13,10 +13,11 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    List<Employee> findByDepartment(String department);
+    //(By creating Query)
+    //List<Employee> findByDepartment(String department);
+    //List<Employee> findByDepartment(String name);   // here "name" means department name
 
     boolean existsByName(String name);
-    boolean existsByNameAndDepartment(String name, String department);
     boolean existsByEmail(String email);
     boolean existsByMobileNumber(String mobileNumber);
 
