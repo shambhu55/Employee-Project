@@ -167,4 +167,21 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setReviewStatus(task.getReviewStatus());
         return taskRepository.save(existingTask);
     }
+
+    @Override
+    public Task giveReviewByManager(Long taskId, Long managerId, Task task) {   // here manager Id means DeptId.
+        Task existingTask = getTaskById(taskId);
+        if (existingTask==null)
+            throw new ResourceNotFoundException("task not found");
+        if (existingTask.getSubmissionFilePath()==null)
+            throw new ResourceNotFoundException(("Task Not uploaded"));
+        if (existingTask.getDepartment().getId()!=managerId)
+            throw new RuntimeException("Manager and task must belongs to same department");
+        existingTask.setReviewedAt(LocalDateTime.now());
+        existingTask.setFeedback(task.getFeedback());
+        existingTask.setReviewStatus(task.getReviewStatus());
+        return taskRepository.save(existingTask);
+    }
+
+
 }

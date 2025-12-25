@@ -101,5 +101,10 @@ public class TaskController {
     public Task giveReviewAndFeedback(@PathVariable Long taskId, @RequestBody Task task){
         return taskService.giveReviewAndFeedback(taskId, task);
     }
+
+    @PutMapping("/{taskId}/giveReviewByManager")
+    public Task giveReviewByManager(@PathVariable Long taskId, @RequestParam Long managerId, @RequestBody Task task){
+        return taskService.giveReviewByManager(taskId, managerId, task);
+    }
 }
 

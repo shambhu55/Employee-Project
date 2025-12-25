@@ -20,4 +20,6 @@ public interface TaskService {
     Task uploadSubmission(Long taskId, Long emplyeeId, MultipartFile file);
 
     Task giveReviewAndFeedback(Long taskId, Task task);
+
+    Task giveReviewByManager(Long taskId, Long managerId, Task task);
 }
